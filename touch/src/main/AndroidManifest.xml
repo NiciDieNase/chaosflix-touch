@@ -56,7 +56,10 @@
         <service
             android:name=".touch.sync.DownloadJobService"
             android:permission="android.permission.BIND_JOB_SERVICE"/>
-
+        <meta-data
+        android:name=
+            "com.google.android.gms.cast.framework.OPTIONS_PROVIDER_CLASS_NAME"
+        android:value=".touch.cast.CastOptionsProvider" />
     </application>
 
 </manifest>
