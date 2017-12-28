@@ -33,8 +33,21 @@ class EventDetailsActivity : AppCompatActivity(),
 		viewModel.writeExternalStorageAllowed = hasWriteStoragePermission()
 
 		val eventId = intent.getLongExtra(EXTRA_EVENT, 0)
-
-		showFragmentForEvent(eventId)
+		if (eventId != 0L) {
+			showFragmentForEvent(eventId)
+		} else {
+			val uri = intent.getParcelableExtra<Uri>(EXTRA_URI)
+			if(uri != null){
+				viewModel.getEventForUri(uri)
+						.observe(this, Observer {  eventId ->
+							if(eventId != null){
+								showFragmentForEvent(eventId)
+							} else {
+								finish()
+							}
+						})
+			}
+		}
 		if (!ActivityCompat.shouldShowRequestPermissionRationale(this,
 				Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
 			requestWriteStoragePermission()

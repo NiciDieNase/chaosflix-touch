@@ -35,6 +35,7 @@ class DetailsViewModel(
 	val offlineItemManager: OfflineItemManager = OfflineItemManager()
 
 	fun getEventById(eventId: Long): LiveData<PersistentEvent> {
+//		downloader.updateEvent(eventId)
 		downloader.updateRecordingsForEvent(eventId)
 		return database.eventDao().findEventById(eventId)
 	}
@@ -97,7 +98,24 @@ class DetailsViewModel(
 		return result
 	}
 
-
+	fun getEventForUri(uri: Uri): LiveData<Long> {
+		val result = MutableLiveData<Long>()
+		val confString = uri.path.split("/")[1].split("-")[0]
+		recordingApi.getConferenceByname(confString)
+				.observeOn(Schedulers.io())
+				.subscribeOn(Schedulers.io())
+				.subscribe({ conf ->
+					database.conferenceDao().insertConferences(PersistentConference(conf))
+					val events = conf.events?.map { PersistentEvent(it) }
+							?: emptyList<PersistentEvent>()
+					database.eventDao().insertEvent(*events.toTypedArray())
+					val filter = events.filter { it.frontendLink == uri.toString() }
+					result.postValue(filter.first().eventId)
+				},{ error ->
+					Log.d(TAG,error.message,error)
+				})
+		return result;
+	}
 
 	companion object {
 		val TAG = DetailsViewModel::class.simpleName

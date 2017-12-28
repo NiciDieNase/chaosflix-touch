@@ -78,6 +78,19 @@ class Downloader(val recordingApi: RecordingService,
 				})
 	}
 
+	fun updateEvent(eventId: Long, listener: ((List<Long>) -> Unit)? = null) {
+		if (eventId < 0)
+			return
+		recordingApi.getEvent(eventId)
+				.subscribeOn(Schedulers.io())
+				.observeOn(Schedulers.io())
+				.subscribe({ t: Event? ->
+					t?.let {database.eventDao().insertEvent(PersistentEvent(it))}
+				},{ t: Throwable? ->
+					Log.d(TAG, t?.message, t)
+				})
+	}
+
 	fun saveConferences(con: ConferencesWrapper?, listener: ((List<Long>) -> Unit)?) {
 		if (con != null) {
 			con.conferenceMap.map { entry ->
@@ -115,7 +128,7 @@ class Downloader(val recordingApi: RecordingService,
 		}
 	}
 
-	private fun saveRecordings(event: Event?, listener: ((List<Long>) -> Unit)?) {
+	private fun saveRecordings(event: Event, listener: ((List<Long>) -> Unit)?) {
 		val recordings = event?.recordings
 				?.map { PersistentRecording(it) }
 				?.toTypedArray()

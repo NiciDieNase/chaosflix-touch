@@ -57,6 +57,30 @@
             android:name=".touch.sync.DownloadJobService"
             android:permission="android.permission.BIND_JOB_SERVICE"/>
 
+        <activity android:name=".touch.resolver.BrowseFilter"
+                  android:excludeFromRecents="true"
+                  android:taskAffinity="">
+            <intent-filter>
+                <action
+                    android:name="android.intent.action.VIEW" />
+                <category
+                    android:name="android.intent.category.DEFAULT" />
+                <category
+                    android:name="android.intent.category.BROWSABLE" />
+                <data
+                    android:host="media.ccc.de"
+                    android:scheme="https"
+                    android:pathPrefix="/v/"/>
+                <data
+                    android:host="streaming.media.ccc.de"
+                    android:scheme="https"
+                    android:pathPrefix="/v/" />
+                <data
+                    android:host="streaming.media.ccc.de"
+                    android:scheme="http" />
+
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
