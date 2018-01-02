@@ -35,7 +35,6 @@ class DetailsViewModel(
 	val offlineItemManager: OfflineItemManager = OfflineItemManager()
 
 	fun getEventById(eventId: Long): LiveData<PersistentEvent> {
-//		downloader.updateEvent(eventId)
 		downloader.updateRecordingsForEvent(eventId)
 		return database.eventDao().findEventById(eventId)
 	}
@@ -100,7 +99,7 @@ class DetailsViewModel(
 
 	fun getEventForUri(uri: Uri): LiveData<Long> {
 		val result = MutableLiveData<Long>()
-		val confString = uri.path.split("/")[1].split("-")[0]
+		val confString = uri.path.split("/")[2].split("-")[0]
 		recordingApi.getConferenceByname(confString)
 				.observeOn(Schedulers.io())
 				.subscribeOn(Schedulers.io())

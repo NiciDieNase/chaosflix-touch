@@ -163,6 +163,10 @@
 			app:layout_anchorGravity="bottom|right|end"
 			android:focusable="true"/>
 
+
+		<include
+			android:id="@+id/inc_overlay"
+			layout="@layout/loading_overlay"/>
 	</android.support.design.widget.CoordinatorLayout>
 
 </layout>

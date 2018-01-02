@@ -94,6 +94,7 @@ class EventDetailsFragment : Fragment() {
 						this.event = event
 						updateBookmark()
 						binding.event = event
+						binding.incOverlay?.loadingOverlay?.visibility = View.INVISIBLE
 						binding.thumbImage.transitionName = getString(R.string.thumbnail) + event.eventId
 						Picasso.with(context)
 								.load(event.thumbUrl)

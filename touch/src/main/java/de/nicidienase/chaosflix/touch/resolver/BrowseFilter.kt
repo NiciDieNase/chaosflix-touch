@@ -5,8 +5,8 @@ import android.net.Uri
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
+import de.nicidienase.chaosflix.R
 import de.nicidienase.chaosflix.touch.SplashActivity
-import de.nicidienase.chaosflix.touch.browse.BrowseActivity
 import de.nicidienase.chaosflix.touch.eventdetails.EventDetailsActivity
 
 class BrowseFilter: AppCompatActivity(){
@@ -16,8 +16,10 @@ class BrowseFilter: AppCompatActivity(){
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 
-		Log.d(TAG, intent.data.toString())
+		this.setContentView(R.layout.loading_overlay)
+
 		if(intent.data != null){
+			Log.d(TAG, intent.data.toString())
 
 			when(intent.data.host){
 				"media.ccc.de" -> decodeMediaUri(intent.data)
