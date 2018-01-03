@@ -23,20 +23,34 @@
 			android:layout_height="wrap_content"
 			android:layout_margin="8dp">
 
-			<ImageView
-				android:id="@+id/imageView"
+			<FrameLayout
+				android:id="@+id/image_frame"
 				android:layout_width="@dimen/thumbnail_width"
 				android:layout_height="@dimen/thumbnail_height"
 				android:layout_marginBottom="4dp"
 				android:layout_marginEnd="8dp"
 				android:layout_marginStart="8dp"
 				android:layout_marginTop="14dp"
-				android:contentDescription="@string/titleimage"
-				android:scaleType="fitCenter"
 				app:layout_constraintBottom_toTopOf="@+id/title_text"
 				app:layout_constraintEnd_toEndOf="parent"
 				app:layout_constraintStart_toStartOf="@+id/title_text"
-				app:layout_constraintTop_toTopOf="parent"/>
+				app:layout_constraintTop_toTopOf="parent">
+
+				<ImageView
+					android:id="@+id/imageView"
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"
+					android:scaleType="fitCenter"/>
+
+				<TextView
+					android:id="@+id/length_text"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:text=""
+					tools:text="00:00"
+					android:layout_gravity="bottom|end"/>
+			</FrameLayout>
 
 			<TextView
 				android:id="@+id/title_text"
@@ -51,7 +65,7 @@
 				android:textAppearance="@style/TextAppearance.AppCompat.Title"
 				app:layout_constraintEnd_toEndOf="@+id/subtitle_text"
 				app:layout_constraintStart_toStartOf="@+id/subtitle_text"
-				app:layout_constraintTop_toBottomOf="@+id/imageView"/>
+				app:layout_constraintTop_toBottomOf="@+id/image_frame"/>
 
 			<TextView
 				android:id="@+id/subtitle_text"
