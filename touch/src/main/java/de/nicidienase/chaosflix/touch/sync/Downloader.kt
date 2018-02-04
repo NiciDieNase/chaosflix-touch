@@ -114,6 +114,9 @@ class Downloader(val recordingApi: RecordingService,
 				val oldEvents = database.eventDao().findEventsByConferenceSync(conference.conferenceID)
 						.filter { !insertEventIds.contains(it.eventId) }.toTypedArray()
 				try {
+					oldEvents.map {
+						database.recordingDao().deleteRecordingsForEvent(it.eventId)
+					}
 					database.eventDao().deleteEvent(*oldEvents)
 				} catch (ex: SQLiteConstraintException){
 					Log.d(TAG,"SQLiteException",ex)
